@@ -50,6 +50,13 @@ public class AnnounceSearchIndexerDaemon extends Daemon
     public void run( )
     {
         boolean bTotalIndexing = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_INDEXER_PARAM_TOTAL, "true" ) );
-        setLastRunLogs( AnnounceSearchService.getInstance( ).processIndexing( bTotalIndexing ) );
+        try
+        {
+            setLastRunLogs( fr.paris.lutece.plugins.announce.service.announcesearch.AnnounceSearchService.getInstance( ).processIndexing( bTotalIndexing ) );
+        }
+        catch( java.io.IOException e )
+        {
+            throw new RuntimeException( e );
+        }
     }
 }

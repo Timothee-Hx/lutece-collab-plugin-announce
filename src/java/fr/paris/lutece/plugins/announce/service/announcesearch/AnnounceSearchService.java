@@ -54,6 +54,8 @@ import org.apache.lucene.index.LogMergePolicy;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+
 
 import fr.paris.lutece.plugins.announce.business.Announce;
 import fr.paris.lutece.plugins.announce.business.AnnounceSearchFilter;
@@ -243,17 +245,18 @@ public final class AnnounceSearchService
      *            true for start full indexing false for begin incremental indexing
      * @return the log
      */
-    public String processIndexing( boolean bCreate )
+    public String processIndexing( boolean bCreate ) throws IOException
     {
         StringBuffer sbLogs = new StringBuffer( );
-        IndexWriter writer = null;
         boolean bCreateIndex = bCreate;
+        Directory dir = FSDirectory.open( Paths.get( getIndex( ) ) );
 
-        try
-        {
+        StandardAnalyzer analyzer = new StandardAnalyzer();
+        IndexWriterConfig config = new IndexWriterConfig(analyzer);
+        IndexWriter writer = new IndexWriter(dir, config);
+        try {
+
             sbLogs.append( "\r\nIndexing all contents ...\r\n" );
-
-            Directory dir = FSDirectory.open( Paths.get( getIndex( ) ) );
 
             // Nouveau
             if ( !DirectoryReader.indexExists( dir ) )
@@ -261,15 +264,6 @@ public final class AnnounceSearchService
                 bCreateIndex = true;
             }
 
-            boolean bIsLocked = false;
-
-            if ( IndexWriter.isLocked( dir ) )
-            {
-                sbLogs.append( "AnnounceSearchService, the index is locked. Aborting." );
-            }
-
-            if ( !bIsLocked )
-            {
                 Date start = new Date( );
 
                 IndexWriterConfig conf = new IndexWriterConfig( new LimitTokenCountAnalyzer( _analyzer, _nWriterMaxSectorLength ) );
@@ -287,7 +281,6 @@ public final class AnnounceSearchService
                     conf.setOpenMode( OpenMode.APPEND );
                 }
 
-                writer = new IndexWriter( dir, conf );
 
                 start = new Date( );
 
@@ -303,10 +296,10 @@ public final class AnnounceSearchService
                 sbLogs.append( "Duration of the treatment : " );
                 sbLogs.append( end.getTime( ) - start.getTime( ) );
                 sbLogs.append( " milliseconds\r\n" );
-            }
         }
         catch( Exception e )
         {
+
             sbLogs.append( " caught a " );
             sbLogs.append( e.getClass( ) );
             sbLogs.append( "\n with message: " );
@@ -334,7 +327,7 @@ public final class AnnounceSearchService
 
     /**
      * Add Indexer Action to perform on a record
-     * 
+     *
      * @param nIdAnnounce
      *            announce id
      * @param nIdTask
@@ -352,7 +345,7 @@ public final class AnnounceSearchService
 
     /**
      * Remove a Indexer Action
-     * 
+     *
      * @param nIdAction
      *            the key of the action to remove
      * @param plugin
@@ -365,7 +358,7 @@ public final class AnnounceSearchService
 
     /**
      * return a list of IndexerAction by task key
-     * 
+     *
      * @param nIdTask
      *            the task key
      * @param plugin
@@ -382,7 +375,7 @@ public final class AnnounceSearchService
 
     /**
      * Get the path to the index of the search service
-     * 
+     *
      * @return The path to the index of the search service
      */
     private String getIndex( )
@@ -397,7 +390,7 @@ public final class AnnounceSearchService
 
     /**
      * Get the analyzed of this search service
-     * 
+     *
      * @return The analyzer of this search service
      */
     public Analyzer getAnalyzer( )
@@ -407,7 +400,7 @@ public final class AnnounceSearchService
 
     /**
      * Format a price for the indexer
-     * 
+     *
      * @param dPrice
      *            The price to format
      * @return The formated price
@@ -421,7 +414,7 @@ public final class AnnounceSearchService
 
     /**
      * Format a numerous string
-     * 
+     *
      * @param strPrice
      *            The price
      * @return The formated price
@@ -434,7 +427,7 @@ public final class AnnounceSearchService
 
     /**
      * Format a price for the indexer
-     * 
+     *
      * @param nPrice
      *            The price to format
      * @return The formated price
@@ -448,7 +441,7 @@ public final class AnnounceSearchService
 
     /**
      * Get the price format to use
-     * 
+     *
      * @return the price format to use
      */
     private static String getPriceFormat( )
