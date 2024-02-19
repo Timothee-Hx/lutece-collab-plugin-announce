@@ -51,10 +51,10 @@
 				<div class="form-group">
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="width">#i18n{announce.createEntry.labelWidth} * </label>
 					<div class="col-xs-12 col-sm-12 col-md-6">
-						<input  type="text" name="width" id="width" value="${field.width}" class="form-control" >
+						<p>en attendant on ne mets pas de valeur par default</p>
+						<input  type="text" name="width" id="width" value="" class="form-control" >
 					</div>
 				</div>
-				<#assign id_field=field.idField>
 				<div class="form-group">
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="file_max_size">#i18n{announce.createEntry.labelFileMaxSize} * </label>
 					<div class="col-xs-12 col-sm-12 col-md-6">
@@ -104,17 +104,23 @@
 				<h3 class="box-title">#i18n{announce.createEntry.manageRegularExpression.title}</h3>
 				<div class="box-tools pull-right">
 					<form class="form-inline pull-right"  method="post"  action="jsp/admin/plugins/announce/ManageCategoryEntries.jsp#list">
-						<input name="id_field" value="${id_field}" type="hidden">
+						<#if entry??>
+						<#list entry.fields as id_field>
+						<#if id_field??>
+						<input name="id_field" value="${id_field.idField}" type="hidden">
 						<input name="action" value="doInsertRegularExpression" type="hidden">
 						<label  for="id_expression">#i18n{announce.createEntry.manageRegularExpression.labelInsert}</label>
 						<div class="input-group">
 							<@select name="id_expression" items=regular_expression_list default_value="-1" params="class=\"form-control input-xs\"" />
-							
+
 							<span class="input-group-btn">
 								<button class="btn btn-primary btn-xs btn-flat" type="submit">#i18n{announce.createEntry.manageRegularExpression.buttonInsert}</button>
 							</span>
 						</div>
 					</form>
+					</#if>
+			</#list>
+		</#if>
 				</div>
 			</div>
 			<div class="box-body table-responsive">

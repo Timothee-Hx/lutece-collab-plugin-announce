@@ -139,6 +139,7 @@ public class CategoryEntryJspBean extends MVCAdminJspBean
     @View( value = VIEW_GET_CREATE_ENTRY )
     public String getCreateEntry( HttpServletRequest request )
     {
+        System.out.println("CategoryEntryJspBean.getCreateEntry()");
         String strIdCategory = request.getParameter( PARAMETER_ID_CATEGORY );
 
         if ( StringUtils.isEmpty( strIdCategory ) || !StringUtils.isNumeric( strIdCategory ) )
@@ -156,8 +157,7 @@ public class CategoryEntryJspBean extends MVCAdminJspBean
         int nIdCategory = Integer.parseInt( strIdCategory );
         int nIdType = Integer.parseInt( strIdType );
 
-        Entry entry = new Entry( );
-        entry.setEntryType( EntryTypeHome.findByPrimaryKey( nIdType ) );
+        Entry entry = createEntryByType( nIdType );
 
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
         int nIdField = -1;
@@ -193,7 +193,25 @@ public class CategoryEntryJspBean extends MVCAdminJspBean
 
         return getPage( PROPERTY_CREATE_ENTRY_TITLE, strTemplate, model );
     }
+    /**
+     * Return an instance of IEntry function of type entry
+     *
+     * @param nIdType
+     *            the entry type id
+     * @return an instance of IEntry function of type entry
+     */
+    public static Entry createEntryByType( int nIdType )
+    {
+        if ( nIdType == -1 )
+        {
+            return null;
+        }
 
+        Entry entry = new Entry( );
+        fr.paris.lutece.plugins.genericattributes.business.EntryType entryType = fr.paris.lutece.plugins.genericattributes.business.EntryTypeHome.findByPrimaryKey( nIdType );
+        entry.setEntryType( entryType );
+        return entry;
+    }
     /**
      * Do create an entry
      * 
