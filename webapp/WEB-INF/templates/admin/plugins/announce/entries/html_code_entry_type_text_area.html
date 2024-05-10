@@ -1,12 +1,13 @@
-<#macro getTextAreaContent responseContent has_error entry field>
+<#macro getTextAreaContent responseContent has_error entry field_width field_height >
 	<!#-- 	fieldInLine means use rich text -->
 	<#if has_error>
-		<textarea name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" cols="${field.width}" rows="${field.height}" class="form-control alert alert-error<#if entry.fieldInLine> richtext</#if>">${responseContent}</textarea>
+		<textarea name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" cols="${field_width}" rows="${field_height}" class="form-control alert alert-error<#if entry.fieldInLine> richtext</#if>">${responseContent}</textarea>
 	<#else>
-		<textarea name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" cols="${field.width}" rows="${field.height}" class="form-control ${entry.CSSClass!}<#if entry.fieldInLine> richtext</#if>" >${responseContent}</textarea>
+		<textarea name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" cols="${field_width}" rows="${field_height}" class="form-control ${entry.CSSClass!}<#if entry.fieldInLine> richtext</#if>" >${responseContent}</textarea>
 	</#if>
 </#macro>
-
+<#assign field_width=getFieldValueByCode( entry, "width")>
+<#assign field_height=getFieldValueByCode( entry, "height")>
 <div class="form-group">
 <label class="control-label col-xs-12 col-sm-12 col-md-3" for="attribute${entry.idEntry}">${entry.title}<#if entry.mandatory> *</#if></label>
 <div class="col-xs-12 col-sm-12 col-md-9">
@@ -15,17 +16,17 @@
 		<#list list_responses as response>
 			<#if response.entry.idEntry == entry.idEntry && response.valueResponse??>
 				<#if response.entry.error??>
-					<@getTextAreaContent responseContent=response.valueResponse has_error=true entry=entry field=field/>
+					<@getTextAreaContent responseContent=response.valueResponse has_error=true entry=entry field_width=field_width field_height=field_height/>
 				<#else>
-					<@getTextAreaContent responseContent=response.valueResponse has_error=false entry=entry field=field/>
+					<@getTextAreaContent responseContent=response.valueResponse has_error=false entry=entry field_width=field_width field_height=field_height/>
 				</#if>
 			</#if>
 		</#list>
 	<#else>
 		<#if field.value?exists>
-			<@getTextAreaContent responseContent=field.value has_error=false entry=entry field=field/>
+			<@getTextAreaContent responseContent=field.value has_error=false entry=entry field_width=field_width field_height=field_height/>
 		<#else>
-			<@getTextAreaContent responseContent="" has_error=false entry=entry field=field/>
+			<@getTextAreaContent responseContent="" has_error=false entry=entry field_width=field_width field_height=field_height/>
 		</#if>
 	</#if>
 	<#if entry.helpMessage?exists&&entry.helpMessage!=''>
@@ -48,4 +49,3 @@
 	<#include "/util/editor/editor.html" />
 	<@initEditor />
 </#if>
-		

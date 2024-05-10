@@ -1,8 +1,11 @@
+<#assign field_width=getFieldValueByCode( entry, "width")>
+<#assign field_value=getFieldValueByCode( entry, "value")>
+<#assign field=getFieldByCode( entry, "text_config")>
+
 <div class="form-group">
 	<label class="control-label col-xs-12 col-sm-12 col-md-3" for="attribute${entry.idEntry}">${entry.title}<#if entry.mandatory> *</#if></label>
-	<#assign field=getFieldByCode( entry, "text_config")>
 	<div class="col-xs-12 col-sm-12 col-md-9">
-		<input type="text" name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" size="${field.width}" 
+		<input type="text" name="attribute${entry.idEntry}" id="attribute${entry.idEntry}"
 			<#if list_responses??>
 				<#list list_responses as response>
 				<#if response.entry.idEntry == entry.idEntry>
@@ -15,13 +18,13 @@
 					</#if>
 				</#list>
 			<#else>
-				<#if field.value?exists>
-					value="${field.value}" 
+              <#if field.value?exists>
+					value="${field.value}"
 			 	<#else>
 					 value="" 
 				</#if>
 			</#if>
-			<#if field.maxSizeEnter!=-1>
+			<#if field.maxSizeEnter?exists && field.maxSizeEnter!=-1>
 				maxlength="${field.maxSizeEnter}"
 			</#if>
 			class="${entry.CSSClass!} form-control">
@@ -38,13 +41,12 @@
 		</#if>
 	</#list>
 </#if>
-<#if entry.confirmField>
+<#if entry.confirmField?exists && entry.confirmField>
 <div class="form-group">
 	<label class="control-label col-xs-12 col-sm-12 col-md-3" for="attribute${entry.idEntry}_confirm_field">${entry.confirmFieldTitle}<#if entry.mandatory> *</#if></label>
-	<#assign field=getFieldByCode( entry, "text_config")>
 	<div class="col-xs-12 col-sm-12 col-md-9">
-		<input type="text" name="attribute${entry.idEntry}_confirm_field" id="attribute${entry.idEntry}_confirm_field" class="form-control" size="${field.width}" value="" 
-		<#if field.maxSizeEnter!=-1>maxlength="${field.maxSizeEnter}"</#if>/>
+		<input type="text" name="attribute${entry.idEntry}_confirm_field" id="attribute${entry.idEntry}_confirm_field" class="form-control" value=""
+		<#if field_maxSize!=-1>maxlength="${field_maxSize}"</#if>/>
 	</div>
 </div>
 </#if>

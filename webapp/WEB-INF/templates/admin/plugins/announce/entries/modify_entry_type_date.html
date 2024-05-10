@@ -28,22 +28,26 @@
 						<textarea  name="comment" class="form-control" rows="2">${entry.comment}</textarea>
 					</div>
 				</div>
-				<#assign field = getFieldByCode( entry, "default_date_value" ) >
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="date">#i18n{announce.createEntry.labelValueDefault}</label>
-					<div class="col-xs-12 col-sm-12 col-md-2">
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-							<input type="text" name="value" id="date" class="form-control" value="${field.valueTypeDate?if_exists}" >
-						</div>
-					</div>
-				</div>
+
+				<@formGroup labelFor='date' labelKey='#i18n{forms.createEntry.labelValueDefault}'>
+					<#assign field = getFieldByCode( entry, "default_date_value" ) >
+					<@inputGroup>
+					<@inputGroupItem type='text'><@icon style='calendar' /></@inputGroupItem>
+						<#assign default=''>
+						<#if field.valueTypeDate?? >
+							<#assign default=field.valueTypeDate>
+			    		</#if>
+						<@input type='date' language=locale name='value' id='date' value=default />
+					</@inputGroup>
+				</@formGroup>
+
+
 				<div class="form-group">
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for=""></label>
-					<div class="col-xs-12 col-sm-12 col-md-6">	
+					<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="checkbox">
 							<label class="checkbox" for="mandatory">
-								<input name="mandatory" id="mandatory" value="1" type="checkbox" <#if entry.mandatory>checked="checked"</#if>> #i18n{announce.createEntry.labelMandatory} 
+								<input name="mandatory" id="mandatory" value="1" type="checkbox" <#if entry.mandatory>checked="checked"</#if>> #i18n{announce.createEntry.labelMandatory}
 							</label>
 						</div>
 					</div>
@@ -68,4 +72,3 @@
 </div>
 <#include "/admin/util/editor/editor.html" />
 <@initEditor />
-<@getDatePickerBootstrap idField="date" language=locale />

@@ -36,6 +36,11 @@
 
     </javascript-files>
 
+
+    <freemarker-macro-files>
+        <freemarker-macro-file>admin/plugins/announce/commons.html</freemarker-macro-file>
+    </freemarker-macro-files>
+
     <admin-features>
         <admin-feature>
             <feature-id>ANNOUNCE_MANAGEMENT</feature-id>

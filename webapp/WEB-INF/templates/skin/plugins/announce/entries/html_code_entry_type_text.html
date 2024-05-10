@@ -1,8 +1,10 @@
 <div class="form-group">
 	<label class="col-sm-2 control-label" for="attribute${entry.idEntry}">${entry.title}<#if entry.mandatory> *</#if></label>
-	<#assign field=getFieldByCode( entry, "text_config")>
+	<#assign default_val=getFieldValueByCode( entry, "text_config")>
+	<#assign field_width=getFieldValueByCode( entry, "width")>
+	<#assign field_max_size=getFieldValueByCode( entry, "max_size")>
 	<div class="col-sm-10">
-		<input type="text" name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" size="${field.width}" 
+		<input type="text" name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" size="${field_width}"
 			<#if list_responses??>
 				<#list list_responses as response>
 				<#if response.entry.idEntry == entry.idEntry>
@@ -15,14 +17,14 @@
 					</#if>
 				</#list>
 			<#else>
-				<#if field.value?exists>
-					value="${field.value}" 
+				<#if default_val??>
+					value="${default_val}"
 			 	<#else>
 					 value="" 
 				</#if>
 			</#if>
-			<#if field.maxSizeEnter!=-1>
-				maxlength="${field.maxSizeEnter}"
+			<#if field_max_size?number!=-1>
+				maxlength="${field_max_size}"
 			</#if>
 			class="${entry.CSSClass!} "	/>
 		<#if entry.helpMessage?exists&&entry.helpMessage!=''>
@@ -38,13 +40,13 @@
 		</#if>
 	</#list>
 </#if>
-<#if entry.confirmField>
+<#assign confirmField=getFieldByCode( entry, "confirm_field")>
+<#if confirmField.value?boolean>
 <div class="control-group">
 	<label class="control-label" for="attribute${entry.idEntry}_confirm_field">${entry.confirmFieldTitle}<#if entry.mandatory> *</#if></label>
-	<#assign field=getFieldByCode( entry, "text_config")>
 	<div class="controls">
 		<input type="text" name="attribute${entry.idEntry}_confirm_field" id="attribute${entry.idEntry}_confirm_field" size="${field.width}" value="" 
-		<#if field.maxSizeEnter!=-1>maxlength="${field.maxSizeEnter}"</#if>/>
+		<#if field_max_size!=-1>maxlength="${field_max_size}"</#if>/>
 	</div>
 </div>
 </#if>

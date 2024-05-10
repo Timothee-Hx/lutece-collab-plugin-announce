@@ -1,9 +1,11 @@
 <#macro getTextAreaContent responseContent has_error entry field>
+<#assign field_height=getFieldValueByCode( entry, "height")>
+<#assign field_width=getFieldValueByCode( entry, "width")>
 	<!#-- 	fieldInLine means use rich text -->
 	<#if has_error>
-		<textarea name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" cols="${field.width}" rows="${field.height}" class="alert alert-error<#if entry.fieldInLine> richtext</#if>">${responseContent}</textarea>
+		<textarea name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" cols="${field_width}" rows="${field_height}" class="alert alert-error<#if entry.fieldInLine> richtext</#if>">${responseContent}</textarea>
 	<#else>
-		<textarea name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" cols="${field.width}" rows="${field.height}" class="${entry.CSSClass!}<#if entry.fieldInLine> richtext</#if>" >${responseContent}</textarea>
+		<textarea name="attribute${entry.idEntry}" id="attribute${entry.idEntry}" cols="${field_width}" rows="${field_height}" class="${entry.CSSClass!}<#if entry.fieldInLine> richtext</#if>" >${responseContent}</textarea>
 	</#if>
 </#macro>
 

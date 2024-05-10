@@ -6,7 +6,7 @@
 			</div>
 			<div class="box-body">
 				<#assign config=getFieldByCode( entry, "text_config")>
-				<form class="form-horizontal" action="jsp/admin/plugins/announce/ManageCategoryEntries.jsp" method="post" name="" id="">
+				<form class="form-horizontal" action="jsp/admin/plugins/announce/ManageCategoryEntries.jsp" method="post" name="" id="" enctype="multipart/form-data">
 				<input name="id_entry" value="${entry.idEntry}" type="hidden">
 				<input name="action" value="doModifyEntry" type="hidden">
 				<div class="form-group">
@@ -53,32 +53,42 @@
 					</div>
 				</div>
 				<div class="form-group">
+					<#assign field_width=getFieldValueByCode( entry, "width")>
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="width">#i18n{announce.createEntry.labelWidth} *</label>
 					<div class="col-xs-12 col-sm-12 col-md-6">
-						<input type="text" name="width" id="width" value="${config.width}" class="form-control" >
+						<input type="text" name="width" id="width" value="${field_width?number}" class="form-control" >
 					</div>
 				</div>
-				<#assign id_field=field.idField> 
+				<#assign id_field=field.idField>
 				<div class="form-group">
+					<#assign field_max_size=getFieldValueByCode( entry, "max_size")>
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="max_size_enter">#i18n{announce.createEntry.labelMaxSizeEnter}</label>
 						<div class="col-xs-12 col-sm-12 col-md-6">
-						<input type="text" name="max_size_enter" id="max_size_enter" value="<#if config.maxSizeEnter!=-1>${config.maxSizeEnter!}</#if>" class="form-control">
+						<input type="text" name="max_size_enter" id="max_size_enter" value="${field_max_size}" class="form-control">
 					</div>
 				</div>
 				<div class="form-group">
+						<#assign confirmFieldField=getFieldByCode( entry, "confirm_field")>
+						<#if confirmFieldField.value?boolean>
+							<#assign checkedValue = true />
+							<#assign confirmFieldTitle = confirmFieldField.title />
+						<#else>
+							<#assign checkedValue = false />
+							<#assign confirmFieldTitle ="" />
+						</#if>
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for=""></label>
 			   		<div class="col-xs-12 col-sm-12 col-md-6">
 						<div class="checkbox">
 							<label for="confirm_field">
-								<input name="confirm_field" id="confirm_field" value="1" type="checkbox" onchange="javascript:changeVisilityConfirmFieldTitle();" <#if entry.confirmField> 	checked="checked"</#if>> #i18n{announce.createEntry.labelConfirmField}
+								<input name="confirm_field" id="confirm_field" value="true" type="checkbox" onchange="javascript:changeVisilityConfirmFieldTitle();" <#if checkedValue> checked</#if> > #i18n{announce.createEntry.labelConfirmField}
 							</label>
 						</div>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group" id="confirm_field_title_group">
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="confirm_field_title">#i18n{announce.createEntry.labelConfirmFieldTitle} *</label>
 			   		<div class="col-xs-12 col-sm-12 col-md-6">
-						<input type="text" name="confirm_field_title" id="confirm_field_title" class="form-control" value="${entry.confirmFieldTitle!}" maxlength="255">
+						<input type="text" name="confirm_field_title" id="confirm_field_title" class="form-control" value="${confirmFieldTitle}" maxlength="255">
 					</div>
 				</div>
 				<div class="form-group">
@@ -158,11 +168,11 @@ function changeVisilityConfirmFieldTitle()
 	{
 		if(document.getElementById("confirm_field").checked)
 		{
-	  		document.getElementById("confirm_field_title_p").style.display = 'block';
+			document.getElementById("confirm_field_title_group").style.display = 'block';
 		}
 		else
 		{
-	  		document.getElementById("confirm_field_title_p").style.display = 'none';
+			document.getElementById("confirm_field_title_group").style.display = 'none';
 		}
 	} 
   </script>

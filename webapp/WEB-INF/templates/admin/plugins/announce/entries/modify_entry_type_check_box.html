@@ -99,6 +99,7 @@
 				</tr>
 			 	<#assign cpt=0>
 				<#list list as field>
+				<#if field.code == 'answer_choice'>
 					<#assign cpt=cpt+1>
 					<tr>
 						<td>${field.title}</td>
@@ -132,10 +133,11 @@
 							</#if>
 							<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/plugins/announce/ManageCategoryFields.jsp?view=getConfirmRemoveField&id_field=${field.idField}#list" title="#i18n{announce.createEntry.manageField.titleDelete}" >
 								<i class="fa fa-trash"></i>
-							</a>
-						</td>
-					</tr>
-				</#list> 
+								</a>
+							</td>
+						</tr>
+					</#if>
+				</#list>
 			</table>
 			</div>
 		</div>

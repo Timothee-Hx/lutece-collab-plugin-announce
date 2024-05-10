@@ -78,6 +78,9 @@
 											<img height="80px" src="image?resource_type=announce_img&id=${response.idResponse}" />
 										</a>
 									</li>
+							<#elseif response.entry.entryType.beanName?? && response.entry.entryType.beanName=="announce.entryTypeDate">
+								<#assign dateval = response.responseValue?number?number_to_date?iso_local>
+								${dateval}
                             <#else>
                             	${response.toStringValueResponse}
                             </#if>

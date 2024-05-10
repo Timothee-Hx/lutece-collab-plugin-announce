@@ -5,7 +5,7 @@
 				<h3 class="box-title">#i18n{announce.createEntry.titleQuestion}  - ${category.label} - #i18n{announce.createEntry.labelType}  ${entry.entryType.title}</h3>
 			</div>
 			<div class="box-body">
-				<form class="form-horizontal" action="jsp/admin/plugins/announce/ManageCategoryEntries.jsp" method="post" name="" id=""  >
+				<form class="form-horizontal" action="jsp/admin/plugins/announce/ManageCategoryEntries.jsp" method="post" name="" id="" enctype="multipart/form-data" >
 				<input name="id_category" value="${category.id}" type="hidden">
 				<input name="action" value="doCreateEntry" type="hidden">
 				<input name="id_type" value="${entry.entryType.idType}" type="hidden">
@@ -21,12 +21,16 @@
 				</div>
 			    <div class="form-group">
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" > #i18n{announce.createEntry.labelHelpMessage} </label>
-					<div class="col-xs-12 col-sm-12 col-md-6">						<textarea  name="help_message" id="help_message"  rows="5" class="form-control"></textarea>
-						<span class="help-block">#i18n{announce.createEntry.labelHelpMessageComment}</span>					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6">
+						<textarea  name="help_message" id="help_message"  rows="5" class="form-control"></textarea>
+						<span class="help-block">#i18n{announce.createEntry.labelHelpMessageComment}</span>
+					</div>
 			    </div>
 				<div class="form-group">
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="comment"> #i18n{announce.createEntry.labelComment} </label>
-					<div class="col-xs-12 col-sm-12 col-md-6">						<textarea  name="comment" class="form-control" rows="2"></textarea>					</div>
+					<div class="col-xs-12 col-sm-12 col-md-6">
+						<textarea  name="comment" class="form-control" rows="2"></textarea>
+					</div>
 			    </div>
 			    <div class="form-group">
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="value">#i18n{announce.createEntry.labelValueDefault} </label>
@@ -85,6 +89,15 @@
 						<input type="text" name="css_class" value="" maxlength="255" class="form-control" />
 						<span class="help-block">#i18n{announce.createEntry.labelCSSClassComment}</span>
 					</div>
+				</div>
+
+				<div class="form-group">
+
+					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="value">image illustration</label>
+					<div class="col-xs-12 col-sm-12 col-md-6">
+						<input  type="file" id='illustration_image'  name='illustration_image'  />
+					</div>
+
 				</div>
 				<div class="form-group">
 					<div class="col-xs-12 col-sm-12 col-md-6  col-md-offset-3">

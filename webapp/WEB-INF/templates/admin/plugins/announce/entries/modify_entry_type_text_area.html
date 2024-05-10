@@ -49,21 +49,24 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-12 col-md-3" for="width">#i18n{announce.createEntry.labelWidth} *</label>
+						<#assign field_width=getFieldValueByCode( entry, "width")>
+						<label class="control-label col-xs-12 col-sm-12 col-md-3" for="width">#i18n{announce.createEntry.labelWidth} * </label>
 						<div class="col-xs-12 col-sm-12 col-md-1">
-							<input  type="text" name="width" id="width" value=">${config.width!}" class="form-control" >
+							<input  type="text" name="width" id="width" value="${field_width?number}" class="form-control" >
 						</div>
 					</div>
 					<div class="form-group">
+						<#assign field_height=getFieldValueByCode( entry, "height")>
 						<label class="control-label col-xs-12 col-sm-12 col-md-3" for="height">#i18n{announce.createEntry.labelHeight} *</label>
 						<div class="col-xs-12 col-sm-12 col-md-1">
-							<input type="text" name="height" id="height" value="${config.height!}" class="form-control" >
+							<input type="text" name="height" id="height" value="${field_height?number}" class="form-control" >
 						</div>
 					</div>
 					<div class="form-group">
+						<#assign field_max_size=getFieldValueByCode( entry, "max_size")>
 					<label class="control-label col-xs-12 col-sm-12 col-md-3" for="max_size_enter">#i18n{announce.createEntry.labelMaxSizeEnter}</label>
 						 <div class="col-xs-12 col-sm-12 col-md-1">
-							<input type="text" name="max_size_enter" id="max_size_enter" value="<#if config.maxSizeEnter &gt; -1>${config.maxSizeEnter}</#if>" class="form-control" >
+							<input type="text" name="max_size_enter" id="max_size_enter" value="${field_max_size}" class="form-control" >
 						</div>
 					</div>
 					<div class="form-group">
@@ -94,6 +97,7 @@
 							</button>
 						</div>
 					</div>
+				</div>
 				</form>
 			</div>
 		</div>
